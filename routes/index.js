@@ -33,4 +33,38 @@ router.post('/', function (req, res) {
   res.redirect('/');
 });
 
+router.get('/edit/:id', (req, res, next) => {
+  // Baca database
+  let repository = new ExpenseRep();
+  let expenses = repository.get(req.params.id) // jika hanya ini aja, maka hasilnya ada <pending>
+    .then((row) => { // then untuk berhasil
+      console.log(row);
+      res.render('update', {
+        title: 'Expense Tracker',
+        expense: row
+      });
+    })
+    .catch((err) => console.log(err)); // catch untuk gagal
+});
+
+router.post('/update', (req, res) => {
+  let id = req.body.id;
+  let amount = parseInt(req.body.amount);
+  let description = req.body.description;
+
+  // Simpan ke dalam database
+  let repository = new ExpenseRep();
+  repository.update(id,amount,description);
+
+  // Redirect
+  res.redirect('/');
+});
+
+router.get('/delete/:id', (req, res, next) => {
+  // Baca database
+  let repository = new ExpenseRep();
+  repository.delete(req.params.id); // jika hanya ini aja, maka hasilnya ada <pending>
+  res.redirect('/');
+});
+
 module.exports = router;

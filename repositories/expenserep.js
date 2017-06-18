@@ -19,6 +19,30 @@ const expenserep = class ExpenseRep {
             });
         });
     }
+
+    get(id) {
+        return new Promise((resolve, reject) => {
+            db.get('SELECT rowid AS id, amount, description FROM expenses WHERE rowid=?', [id], (err, row) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(row); 
+                }
+            });
+        });
+    }
+
+    delete(id) {
+        let stmt = db.prepare('DELETE FROM expenses WHERE rowid=?');
+        stmt.run(id);
+        return stmt.finalize();
+    }
+
+    update(id, amount, description) {
+        let stmt = db.prepare('UPDATE expenses SET amount=?, description=? WHERE rowid=?');
+        stmt.run(amount, description, id);
+        return stmt.finalize();
+    }
 };
 
 module.exports = expenserep;
