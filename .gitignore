@@ -1,3 +1,4 @@
 node_modules/
 README.md
 data.db
+package-lock.json
