@@ -36,11 +36,13 @@
                 <th>Description</th>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>20000</td>
-                  <td>Text for description</td>
-                </tr>
+                <% for(let i=0;i<expenses.length;i++) { %>
+                  <tr>
+                    <td><%= (i+1) %></td>
+                    <td><%= expenses[i].amount %></td>
+                    <td><%= expenses[i].description %></td>
+                  </tr>
+                <% } %>
               </tbody>
             </table>
           </div>
